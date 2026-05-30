@@ -1,0 +1,536 @@
+diff -ruN orig_assignment2/README.md assignment2_ready_ru_ui/README.md
+--- orig_assignment2/README.md	2026-05-30 17:50:47.000000000 +0000
++++ assignment2_ready_ru_ui/README.md	2026-05-30 19:05:37.552976932 +0000
+@@ -1,6 +1,7 @@
+-# Практика — задание №2: первичная визуализация данных
++# Практика — задание №2: Разработка системы первичной визуализации данных
+ 
+ В архиве находится готовый комплект для сдачи второго задания практики.
++Интерфейс приложения русифицирован: кнопки выбора числовых колонок, подписи осей и заголовок графика отображаются на русском языке, как требуется для русскоязычного отчёта и методички.
+ 
+ ## Состав проекта
+ 
+@@ -13,6 +14,22 @@
+ - `test_gui_smoke.py` — smoke-тест интерфейса: проверяет кнопки выбора осей и сохранение графика.
+ - `TEST_CHECKLIST.md` — ручной чек-лист перед сдачей.
+ - `screenshots/` — изображения графиков для вставки в отчёт.
++- `UI_TRANSLATION_REPORT.md` — краткий отчёт о русификации интерфейса.
++- `ui_translation.patch` — diff с изменениями по русификации.
++
++## Русские подписи в интерфейсе
++
++Внутренние имена колонок в `dataset.csv` оставлены без изменений, чтобы не ломать загрузку данных. В окне приложения пользователь видит русские подписи:
++
++| Колонка в CSV | Подпись в интерфейсе |
++|---|---|
++| `platelets` | `Тромбоциты` |
++| `serum creatinine` | `Креатинин сыворотки` |
++| `serum sodium` | `Натрий сыворотки` |
++| `creatinine phosphokinase` | `Креатинфосфокиназа` |
++| `ejection fraction` | `Фракция выброса` |
++
++Кнопка сохранения называется `Сохранить`.
+ 
+ ## Индивидуализация
+ 
+@@ -42,13 +59,13 @@
+ (150, 9)
+ ```
+ 
+-После запуска `data_scatter.py` откроется окно приложения. В нём должны быть кнопки числовых колонок слева и снизу:
++После запуска `data_scatter.py` откроется окно приложения. В нём должны быть русские кнопки числовых колонок слева и снизу:
+ 
+-- `platelets`
+-- `serum creatinine`
+-- `serum sodium`
+-- `creatinine phosphokinase`
+-- `ejection fraction`
++- `Тромбоциты`
++- `Креатинин сыворотки`
++- `Натрий сыворотки`
++- `Креатинфосфокиназа`
++- `Фракция выброса`
+ 
+ Категориальные колонки `sex`, `smoking`, `death` во втором задании не выводятся.
+ 
+@@ -73,7 +90,7 @@
+ ## Что проверить вручную
+ 
+ 1. Окно `data_scatter.py` открывается.
+-2. По умолчанию выбраны оси `x = platelets`, `y = serum creatinine`.
++2. По умолчанию выбраны оси `x = Тромбоциты`, `y = Креатинин сыворотки`.
+ 3. Кнопки слева меняют ось X.
+ 4. Кнопки снизу меняют ось Y.
+ 5. При каждом нажатии обновляются подписи осей и точки на графике.
+diff -ruN orig_assignment2/TEST_CHECKLIST.md assignment2_ready_ru_ui/TEST_CHECKLIST.md
+--- orig_assignment2/TEST_CHECKLIST.md	2026-05-30 17:50:47.000000000 +0000
++++ assignment2_ready_ru_ui/TEST_CHECKLIST.md	2026-05-30 19:05:37.565253203 +0000
+@@ -10,14 +10,16 @@
+ 
+ - [ ] Программа запускается командой `python data_scatter.py`.
+ - [ ] Окно приложения открывается без ошибок.
+-- [ ] Слева отображаются кнопки числовых колонок.
++- [ ] Заголовок окна: `Задание № 2: Разработка системы первичной визуализации данных`.
++- [ ] Слева отображаются русские кнопки числовых колонок.
+ - [ ] Снизу отображается такой же список кнопок в том же порядке.
++- [ ] Видимые кнопки: `Тромбоциты`, `Креатинин сыворотки`, `Натрий сыворотки`, `Креатинфосфокиназа`, `Фракция выброса`.
+ - [ ] Категориальные колонки `sex`, `smoking`, `death` не отображаются в кнопках.
+-- [ ] По умолчанию выбраны `x = platelets`, `y = serum creatinine`.
++- [ ] По умолчанию выбраны `x = Тромбоциты`, `y = Креатинин сыворотки`.
+ - [ ] При нажатии кнопки слева меняется ось X и график обновляется.
+ - [ ] При нажатии кнопки снизу меняется ось Y и график обновляется.
+ - [ ] При выборе одной колонки на обе оси точки ложатся на диагональ `x = y`.
+-- [ ] Подписи осей соответствуют выбранным колонкам.
++- [ ] Подписи осей отображаются на русском и соответствуют выбранным кнопкам.
+ - [ ] Маркер точек — треугольник вверх `^`, так как рекурсивная сумма ID `70193935` равна `1`.
+ - [ ] Кнопка `Сохранить` создаёт файл `graphHH_MM_SS.png`.
+ - [ ] После закрытия окна программа завершает работу.
+diff -ruN orig_assignment2/UI_TRANSLATION_REPORT.md assignment2_ready_ru_ui/UI_TRANSLATION_REPORT.md
+--- orig_assignment2/UI_TRANSLATION_REPORT.md	1970-01-01 00:00:00.000000000 +0000
++++ assignment2_ready_ru_ui/UI_TRANSLATION_REPORT.md	2026-05-30 19:05:37.576849510 +0000
+@@ -0,0 +1,25 @@
++# Русификация интерфейса задания №2
++
++В приложении `data_scatter.py` переведены видимые пользователю подписи интерфейса.
++Внутренние имена колонок `dataset.csv` оставлены исходными, чтобы не нарушать работу `pandas.DataFrame`.
++
++## Карта отображения
++
++| Колонка в CSV | Подпись в интерфейсе |
++|---|---|
++| `platelets` | `Тромбоциты` |
++| `serum creatinine` | `Креатинин сыворотки` |
++| `serum sodium` | `Натрий сыворотки` |
++| `creatinine phosphokinase` | `Креатинфосфокиназа` |
++| `ejection fraction` | `Фракция выброса` |
++
++Кнопка сохранения оставлена как `Сохранить`, что соответствует примеру интерфейса в методичке.
++
++## Проверка
++
++- Списки кнопок слева и снизу остаются одинаковыми.
++- Левая группа кнопок меняет ось X.
++- Нижняя группа кнопок меняет ось Y.
++- Подписи осей и заголовок графика обновляются на русском языке.
++- Сохранение создаёт файл вида `graphHH_MM_SS.png`.
++- Тесты обновлены под русские подписи интерфейса.
+diff -ruN orig_assignment2/data_scatter.py assignment2_ready_ru_ui/data_scatter.py
+--- orig_assignment2/data_scatter.py	2026-05-30 16:00:51.000000000 +0000
++++ assignment2_ready_ru_ui/data_scatter.py	2026-05-30 19:05:10.313127641 +0000
+@@ -35,6 +35,26 @@
+ STUDENT_ID = 70193935
+ 
+ 
++WINDOW_TITLE = "Задание № 2: Разработка системы первичной визуализации данных"
++SAVE_BUTTON_TEXT = "Сохранить"
++MESSAGEBOX_TITLE = "Сохранение"
++
++# Внутренние имена колонок в dataset.csv остаются исходными,
++# а пользователю показываются русские подписи, как в русскоязычной методичке.
++COLUMN_LABELS_RU = {
++    "platelets": "Тромбоциты",
++    "serum creatinine": "Креатинин сыворотки",
++    "serum sodium": "Натрий сыворотки",
++    "creatinine phosphokinase": "Креатинфосфокиназа",
++    "ejection fraction": "Фракция выброса",
++}
++
++
++def display_label(column: str) -> str:
++    """Возвращает русскую подпись колонки для интерфейса."""
++    return COLUMN_LABELS_RU.get(column, column)
++
++
+ # Таблица стилей из задания №2:
+ # 1 — треугольник вверх, 2 — вправо, 3 — круг, 4 — квадрат,
+ # 5 — плюс, 6 — шестиугольник, 7 — звезда, 8 — шестиугольник, 9 — влево.
+@@ -135,9 +155,9 @@
+     axis = figure.add_subplot(111)
+ 
+     axis.scatter(x_values, y_values, marker=marker, alpha=0.75)
+-    axis.set_xlabel(x_col)
+-    axis.set_ylabel(y_col)
+-    axis.set_title(f"{x_col} / {y_col}")
++    axis.set_xlabel(display_label(x_col))
++    axis.set_ylabel(display_label(y_col))
++    axis.set_title(f"{display_label(x_col)} / {display_label(y_col)}")
+     axis.grid(True, alpha=0.25)
+ 
+     figure.tight_layout()
+@@ -225,7 +245,7 @@
+         self.x_buttons: dict[str, tk.Button] = {}
+         self.y_buttons: dict[str, tk.Button] = {}
+ 
+-        self.root.title("Задание №2: первичная визуализация данных")
++        self.root.title(WINDOW_TITLE)
+ 
+         self._build_widgets()
+         self.update_plot()
+@@ -243,8 +263,8 @@
+         for column in self.numeric_columns:
+             button = tk.Button(
+                 left_frame,
+-                text=column,
+-                width=22,
++                text=display_label(column),
++                width=28,
+                 command=lambda selected=column: self.select_x(selected),
+             )
+             button.pack(fill="x", pady=1)
+@@ -264,7 +284,7 @@
+ 
+         save_button = tk.Button(
+             save_frame,
+-            text="Сохранить",
++            text=SAVE_BUTTON_TEXT,
+             command=self.save_current_graph,
+         )
+         save_button.pack(fill="x")
+@@ -275,7 +295,7 @@
+         for index, column in enumerate(self.numeric_columns):
+             button = tk.Button(
+                 bottom_frame,
+-                text=column,
++                text=display_label(column),
+                 command=lambda selected=column: self.select_y(selected),
+             )
+             button.grid(row=0, column=index, sticky="ew", padx=1)
+@@ -329,7 +349,7 @@
+         self.figure.savefig(output_path, dpi=300)
+ 
+         messagebox.showinfo(
+-            "Сохранение",
++            MESSAGEBOX_TITLE,
+             f"График сохранён: {output_path.name}",
+         )
+ 
+diff -ruN orig_assignment2/test_data_scatter.py assignment2_ready_ru_ui/test_data_scatter.py
+--- orig_assignment2/test_data_scatter.py	2026-05-30 16:00:51.000000000 +0000
++++ assignment2_ready_ru_ui/test_data_scatter.py	2026-05-30 19:05:20.681986649 +0000
+@@ -6,7 +6,9 @@
+ 
+ from data_scatter import (
+     build_scatter,
++    create_scatter_figure,
+     digital_root,
++    display_label,
+     get_numeric_columns,
+     marker_for_student_id,
+     timestamped_graph_name,
+@@ -22,6 +24,22 @@
+     assert timestamped_graph_name(datetime(2026, 5, 29, 9, 5, 2)) == "graph09_05_02.png"
+ 
+ 
++
++
++def test_display_label_returns_russian_labels() -> None:
++    assert display_label("platelets") == "Тромбоциты"
++    assert display_label("serum creatinine") == "Креатинин сыворотки"
++    assert display_label("unknown") == "unknown"
++
++
++def test_create_scatter_figure_uses_russian_axis_labels() -> None:
++    data = pd.DataFrame({"platelets": [1, 2, 3], "serum creatinine": [4, 5, 6]})
++    figure = create_scatter_figure(data, "platelets", "serum creatinine", "^")
++    axis = figure.axes[0]
++    assert axis.get_xlabel() == "Тромбоциты"
++    assert axis.get_ylabel() == "Креатинин сыворотки"
++    assert axis.get_title() == "Тромбоциты / Креатинин сыворотки"
++
+ def test_get_numeric_columns_excludes_categories_and_ids_but_keeps_missing_numeric() -> None:
+     data = pd.DataFrame(
+         {
+diff -ruN orig_assignment2/test_gui_smoke.py assignment2_ready_ru_ui/test_gui_smoke.py
+--- orig_assignment2/test_gui_smoke.py	2026-05-30 17:50:47.000000000 +0000
++++ assignment2_ready_ru_ui/test_gui_smoke.py	2026-05-30 19:05:20.682447174 +0000
+@@ -31,6 +31,9 @@
+     assert app.x_col == "platelets"
+     assert app.y_col == "serum creatinine"
+     assert list(app.x_buttons) == list(app.y_buttons)
++    assert app.root.title() == data_scatter.WINDOW_TITLE
++    assert app.x_buttons["platelets"].cget("text") == "Тромбоциты"
++    assert app.y_buttons["serum creatinine"].cget("text") == "Креатинин сыворотки"
+ 
+     app.x_buttons["ejection fraction"].invoke()
+     app.y_buttons["platelets"].invoke()
+@@ -41,8 +44,8 @@
+     assert app.figure is not None
+ 
+     axis = app.figure.axes[0]
+-    assert axis.get_xlabel() == "ejection fraction"
+-    assert axis.get_ylabel() == "platelets"
++    assert axis.get_xlabel() == "Фракция выброса"
++    assert axis.get_ylabel() == "Тромбоциты"
+ 
+     output_path = app.save_current_graph()
+     assert output_path.exists()
+diff -ruN orig_assignment2/ui_translation.patch assignment2_ready_ru_ui/ui_translation.patch
+--- orig_assignment2/ui_translation.patch	1970-01-01 00:00:00.000000000 +0000
++++ assignment2_ready_ru_ui/ui_translation.patch	2026-05-30 19:05:45.849584891 +0000
+@@ -0,0 +1,266 @@
++diff -ruN orig_assignment2/README.md assignment2_ready_ru_ui/README.md
++--- orig_assignment2/README.md	2026-05-30 17:50:47.000000000 +0000
+++++ assignment2_ready_ru_ui/README.md	2026-05-30 19:05:37.552976932 +0000
++@@ -1,6 +1,7 @@
++-# Практика — задание №2: первичная визуализация данных
+++# Практика — задание №2: Разработка системы первичной визуализации данных
++ 
++ В архиве находится готовый комплект для сдачи второго задания практики.
+++Интерфейс приложения русифицирован: кнопки выбора числовых колонок, подписи осей и заголовок графика отображаются на русском языке, как требуется для русскоязычного отчёта и методички.
++ 
++ ## Состав проекта
++ 
++@@ -13,6 +14,22 @@
++ - `test_gui_smoke.py` — smoke-тест интерфейса: проверяет кнопки выбора осей и сохранение графика.
++ - `TEST_CHECKLIST.md` — ручной чек-лист перед сдачей.
++ - `screenshots/` — изображения графиков для вставки в отчёт.
+++- `UI_TRANSLATION_REPORT.md` — краткий отчёт о русификации интерфейса.
+++- `ui_translation.patch` — diff с изменениями по русификации.
+++
+++## Русские подписи в интерфейсе
+++
+++Внутренние имена колонок в `dataset.csv` оставлены без изменений, чтобы не ломать загрузку данных. В окне приложения пользователь видит русские подписи:
+++
+++| Колонка в CSV | Подпись в интерфейсе |
+++|---|---|
+++| `platelets` | `Тромбоциты` |
+++| `serum creatinine` | `Креатинин сыворотки` |
+++| `serum sodium` | `Натрий сыворотки` |
+++| `creatinine phosphokinase` | `Креатинфосфокиназа` |
+++| `ejection fraction` | `Фракция выброса` |
+++
+++Кнопка сохранения называется `Сохранить`.
++ 
++ ## Индивидуализация
++ 
++@@ -42,13 +59,13 @@
++ (150, 9)
++ ```
++ 
++-После запуска `data_scatter.py` откроется окно приложения. В нём должны быть кнопки числовых колонок слева и снизу:
+++После запуска `data_scatter.py` откроется окно приложения. В нём должны быть русские кнопки числовых колонок слева и снизу:
++ 
++-- `platelets`
++-- `serum creatinine`
++-- `serum sodium`
++-- `creatinine phosphokinase`
++-- `ejection fraction`
+++- `Тромбоциты`
+++- `Креатинин сыворотки`
+++- `Натрий сыворотки`
+++- `Креатинфосфокиназа`
+++- `Фракция выброса`
++ 
++ Категориальные колонки `sex`, `smoking`, `death` во втором задании не выводятся.
++ 
++@@ -73,7 +90,7 @@
++ ## Что проверить вручную
++ 
++ 1. Окно `data_scatter.py` открывается.
++-2. По умолчанию выбраны оси `x = platelets`, `y = serum creatinine`.
+++2. По умолчанию выбраны оси `x = Тромбоциты`, `y = Креатинин сыворотки`.
++ 3. Кнопки слева меняют ось X.
++ 4. Кнопки снизу меняют ось Y.
++ 5. При каждом нажатии обновляются подписи осей и точки на графике.
++diff -ruN orig_assignment2/TEST_CHECKLIST.md assignment2_ready_ru_ui/TEST_CHECKLIST.md
++--- orig_assignment2/TEST_CHECKLIST.md	2026-05-30 17:50:47.000000000 +0000
+++++ assignment2_ready_ru_ui/TEST_CHECKLIST.md	2026-05-30 19:05:37.565253203 +0000
++@@ -10,14 +10,16 @@
++ 
++ - [ ] Программа запускается командой `python data_scatter.py`.
++ - [ ] Окно приложения открывается без ошибок.
++-- [ ] Слева отображаются кнопки числовых колонок.
+++- [ ] Заголовок окна: `Задание № 2: Разработка системы первичной визуализации данных`.
+++- [ ] Слева отображаются русские кнопки числовых колонок.
++ - [ ] Снизу отображается такой же список кнопок в том же порядке.
+++- [ ] Видимые кнопки: `Тромбоциты`, `Креатинин сыворотки`, `Натрий сыворотки`, `Креатинфосфокиназа`, `Фракция выброса`.
++ - [ ] Категориальные колонки `sex`, `smoking`, `death` не отображаются в кнопках.
++-- [ ] По умолчанию выбраны `x = platelets`, `y = serum creatinine`.
+++- [ ] По умолчанию выбраны `x = Тромбоциты`, `y = Креатинин сыворотки`.
++ - [ ] При нажатии кнопки слева меняется ось X и график обновляется.
++ - [ ] При нажатии кнопки снизу меняется ось Y и график обновляется.
++ - [ ] При выборе одной колонки на обе оси точки ложатся на диагональ `x = y`.
++-- [ ] Подписи осей соответствуют выбранным колонкам.
+++- [ ] Подписи осей отображаются на русском и соответствуют выбранным кнопкам.
++ - [ ] Маркер точек — треугольник вверх `^`, так как рекурсивная сумма ID `70193935` равна `1`.
++ - [ ] Кнопка `Сохранить` создаёт файл `graphHH_MM_SS.png`.
++ - [ ] После закрытия окна программа завершает работу.
++diff -ruN orig_assignment2/UI_TRANSLATION_REPORT.md assignment2_ready_ru_ui/UI_TRANSLATION_REPORT.md
++--- orig_assignment2/UI_TRANSLATION_REPORT.md	1970-01-01 00:00:00.000000000 +0000
+++++ assignment2_ready_ru_ui/UI_TRANSLATION_REPORT.md	2026-05-30 19:05:37.576849510 +0000
++@@ -0,0 +1,25 @@
+++# Русификация интерфейса задания №2
+++
+++В приложении `data_scatter.py` переведены видимые пользователю подписи интерфейса.
+++Внутренние имена колонок `dataset.csv` оставлены исходными, чтобы не нарушать работу `pandas.DataFrame`.
+++
+++## Карта отображения
+++
+++| Колонка в CSV | Подпись в интерфейсе |
+++|---|---|
+++| `platelets` | `Тромбоциты` |
+++| `serum creatinine` | `Креатинин сыворотки` |
+++| `serum sodium` | `Натрий сыворотки` |
+++| `creatinine phosphokinase` | `Креатинфосфокиназа` |
+++| `ejection fraction` | `Фракция выброса` |
+++
+++Кнопка сохранения оставлена как `Сохранить`, что соответствует примеру интерфейса в методичке.
+++
+++## Проверка
+++
+++- Списки кнопок слева и снизу остаются одинаковыми.
+++- Левая группа кнопок меняет ось X.
+++- Нижняя группа кнопок меняет ось Y.
+++- Подписи осей и заголовок графика обновляются на русском языке.
+++- Сохранение создаёт файл вида `graphHH_MM_SS.png`.
+++- Тесты обновлены под русские подписи интерфейса.
++diff -ruN orig_assignment2/data_scatter.py assignment2_ready_ru_ui/data_scatter.py
++--- orig_assignment2/data_scatter.py	2026-05-30 16:00:51.000000000 +0000
+++++ assignment2_ready_ru_ui/data_scatter.py	2026-05-30 19:05:10.313127641 +0000
++@@ -35,6 +35,26 @@
++ STUDENT_ID = 70193935
++ 
++ 
+++WINDOW_TITLE = "Задание № 2: Разработка системы первичной визуализации данных"
+++SAVE_BUTTON_TEXT = "Сохранить"
+++MESSAGEBOX_TITLE = "Сохранение"
+++
+++# Внутренние имена колонок в dataset.csv остаются исходными,
+++# а пользователю показываются русские подписи, как в русскоязычной методичке.
+++COLUMN_LABELS_RU = {
+++    "platelets": "Тромбоциты",
+++    "serum creatinine": "Креатинин сыворотки",
+++    "serum sodium": "Натрий сыворотки",
+++    "creatinine phosphokinase": "Креатинфосфокиназа",
+++    "ejection fraction": "Фракция выброса",
+++}
+++
+++
+++def display_label(column: str) -> str:
+++    """Возвращает русскую подпись колонки для интерфейса."""
+++    return COLUMN_LABELS_RU.get(column, column)
+++
+++
++ # Таблица стилей из задания №2:
++ # 1 — треугольник вверх, 2 — вправо, 3 — круг, 4 — квадрат,
++ # 5 — плюс, 6 — шестиугольник, 7 — звезда, 8 — шестиугольник, 9 — влево.
++@@ -135,9 +155,9 @@
++     axis = figure.add_subplot(111)
++ 
++     axis.scatter(x_values, y_values, marker=marker, alpha=0.75)
++-    axis.set_xlabel(x_col)
++-    axis.set_ylabel(y_col)
++-    axis.set_title(f"{x_col} / {y_col}")
+++    axis.set_xlabel(display_label(x_col))
+++    axis.set_ylabel(display_label(y_col))
+++    axis.set_title(f"{display_label(x_col)} / {display_label(y_col)}")
++     axis.grid(True, alpha=0.25)
++ 
++     figure.tight_layout()
++@@ -225,7 +245,7 @@
++         self.x_buttons: dict[str, tk.Button] = {}
++         self.y_buttons: dict[str, tk.Button] = {}
++ 
++-        self.root.title("Задание №2: первичная визуализация данных")
+++        self.root.title(WINDOW_TITLE)
++ 
++         self._build_widgets()
++         self.update_plot()
++@@ -243,8 +263,8 @@
++         for column in self.numeric_columns:
++             button = tk.Button(
++                 left_frame,
++-                text=column,
++-                width=22,
+++                text=display_label(column),
+++                width=28,
++                 command=lambda selected=column: self.select_x(selected),
++             )
++             button.pack(fill="x", pady=1)
++@@ -264,7 +284,7 @@
++ 
++         save_button = tk.Button(
++             save_frame,
++-            text="Сохранить",
+++            text=SAVE_BUTTON_TEXT,
++             command=self.save_current_graph,
++         )
++         save_button.pack(fill="x")
++@@ -275,7 +295,7 @@
++         for index, column in enumerate(self.numeric_columns):
++             button = tk.Button(
++                 bottom_frame,
++-                text=column,
+++                text=display_label(column),
++                 command=lambda selected=column: self.select_y(selected),
++             )
++             button.grid(row=0, column=index, sticky="ew", padx=1)
++@@ -329,7 +349,7 @@
++         self.figure.savefig(output_path, dpi=300)
++ 
++         messagebox.showinfo(
++-            "Сохранение",
+++            MESSAGEBOX_TITLE,
++             f"График сохранён: {output_path.name}",
++         )
++ 
++diff -ruN orig_assignment2/test_data_scatter.py assignment2_ready_ru_ui/test_data_scatter.py
++--- orig_assignment2/test_data_scatter.py	2026-05-30 16:00:51.000000000 +0000
+++++ assignment2_ready_ru_ui/test_data_scatter.py	2026-05-30 19:05:20.681986649 +0000
++@@ -6,7 +6,9 @@
++ 
++ from data_scatter import (
++     build_scatter,
+++    create_scatter_figure,
++     digital_root,
+++    display_label,
++     get_numeric_columns,
++     marker_for_student_id,
++     timestamped_graph_name,
++@@ -22,6 +24,22 @@
++     assert timestamped_graph_name(datetime(2026, 5, 29, 9, 5, 2)) == "graph09_05_02.png"
++ 
++ 
+++
+++
+++def test_display_label_returns_russian_labels() -> None:
+++    assert display_label("platelets") == "Тромбоциты"
+++    assert display_label("serum creatinine") == "Креатинин сыворотки"
+++    assert display_label("unknown") == "unknown"
+++
+++
+++def test_create_scatter_figure_uses_russian_axis_labels() -> None:
+++    data = pd.DataFrame({"platelets": [1, 2, 3], "serum creatinine": [4, 5, 6]})
+++    figure = create_scatter_figure(data, "platelets", "serum creatinine", "^")
+++    axis = figure.axes[0]
+++    assert axis.get_xlabel() == "Тромбоциты"
+++    assert axis.get_ylabel() == "Креатинин сыворотки"
+++    assert axis.get_title() == "Тромбоциты / Креатинин сыворотки"
+++
++ def test_get_numeric_columns_excludes_categories_and_ids_but_keeps_missing_numeric() -> None:
++     data = pd.DataFrame(
++         {
++diff -ruN orig_assignment2/test_gui_smoke.py assignment2_ready_ru_ui/test_gui_smoke.py
++--- orig_assignment2/test_gui_smoke.py	2026-05-30 17:50:47.000000000 +0000
+++++ assignment2_ready_ru_ui/test_gui_smoke.py	2026-05-30 19:05:20.682447174 +0000
++@@ -31,6 +31,9 @@
++     assert app.x_col == "platelets"
++     assert app.y_col == "serum creatinine"
++     assert list(app.x_buttons) == list(app.y_buttons)
+++    assert app.root.title() == data_scatter.WINDOW_TITLE
+++    assert app.x_buttons["platelets"].cget("text") == "Тромбоциты"
+++    assert app.y_buttons["serum creatinine"].cget("text") == "Креатинин сыворотки"
++ 
++     app.x_buttons["ejection fraction"].invoke()
++     app.y_buttons["platelets"].invoke()
++@@ -41,8 +44,8 @@
++     assert app.figure is not None
++ 
++     axis = app.figure.axes[0]
++-    assert axis.get_xlabel() == "ejection fraction"
++-    assert axis.get_ylabel() == "platelets"
+++    assert axis.get_xlabel() == "Фракция выброса"
+++    assert axis.get_ylabel() == "Тромбоциты"
++ 
++     output_path = app.save_current_graph()
++     assert output_path.exists()
